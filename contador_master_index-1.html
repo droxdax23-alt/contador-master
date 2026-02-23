@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contador Master App</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: white;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+header{
+    background: rgba(0,0,0,0.3);
+    padding: 20px;
+}
+
+button{
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-primary{
+    background-color: #00c6ff;
+    color: black;
+}
+
+.btn-option{
+    background-color: #ffffff;
+    color: black;
+}
+
+.container{
+    padding: 20px;
+}
+
+.card{
+    background: rgba(255,255,255,0.1);
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+}
+
+.hidden{
+    display: none;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>📊 Contador Master</h1>
+    <p>Conviértete en el mejor contador</p>
+</header>
+
+<div class="container">
+
+    <div id="menu">
+        <button class="btn-primary" onclick="iniciarJuego()">▶️ Jugar</button>
+    </div>
+
+    <div id="juego" class="hidden">
+
+        <div class="card">
+            <h2>Empresa: Tienda de Ropa</h2>
+            <p>Dinero inicial: $50,000</p>
+            <p id="puntos">Puntos: 0</p>
+        </div>
+
+        <div class="card">
+            <h3 id="pregunta"></h3>
+            <button class="btn-option" onclick="responder('Activo')">Activo</button>
+            <button class="btn-option" onclick="responder('Pasivo')">Pasivo</button>
+            <button class="btn-option" onclick="responder('Capital')">Capital</button>
+            <button class="btn-option" onclick="responder('Ingreso')">Ingreso</button>
+            <button class="btn-option" onclick="responder('Gasto')">Gasto</button>
+        </div>
+
+        <div id="resultado"></div>
+
+    </div>
+
+</div>
+
+<script>
+let puntos = 0;
+
+let preguntas = [
+    {
+        texto: "Venta de mercancía por $5,000 al contado",
+        respuestaCorrecta: "Ingreso"
+    },
+    {
+        texto: "Pago de renta del local por $8,000",
+        respuestaCorrecta: "Gasto"
+    },
+    {
+        texto: "Compra de computadora para la oficina",
+        respuestaCorrecta: "Activo"
+    }
+];
+
+let preguntaActual = 0;
+
+function iniciarJuego(){
+    document.getElementById("menu").classList.add("hidden");
+    document.getElementById("juego").classList.remove("hidden");
+    mostrarPregunta();
+}
+
+function mostrarPregunta(){
+    if(preguntaActual < preguntas.length){
+        document.getElementById("pregunta").innerText = preguntas[preguntaActual].texto;
+    } else {
+        document.getElementById("pregunta").innerText = "🎉 Juego terminado";
+    }
+}
+
+function responder(opcion){
+    let correcta = preguntas[preguntaActual].respuestaCorrecta;
+
+    if(opcion === correcta){
+        puntos += 10;
+        document.getElementById("resultado").innerHTML = "<p>✅ Correcto</p>";
+    } else {
+        puntos -= 5;
+        document.getElementById("resultado").innerHTML = "<p>❌ Incorrecto</p>";
+    }
+
+    document.getElementById("puntos").innerText = "Puntos: " + puntos;
+    preguntaActual++;
+    setTimeout(mostrarPregunta, 1000);
+}
+</script>
+
+</body>
+</html>
